@@ -1,11 +1,3 @@
-//============================================================================
-// Author      	: David Dorta Acosta
-// email       	: alu0100851236@ull.edu.es
-// Asignatura  	: Algoritmos y Estructura de Datos Avanzadas
-// Curso			: 2017-2018
-// Práctica 5	: Implementación de métodos de ordenación
-//============================================================================
-
 #include "dni.hpp"
 #include <ctime>
 
