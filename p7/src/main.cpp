@@ -12,11 +12,14 @@ using namespace std;
 // LLamadas a las funciones auxiliares
 void menu();
 void menu2();
-DNI elemento_aleatorio_matricula();
-void vector_aleatorio_matriculas(
-    vector<DNI>& banco, int input_size); // pasarle por referencia el banco
+DNI elemento_aleatorio_dni();
+void vector_aleatorio_dni(vector<DNI>& banco, int input_size); // pasarle por referencia el banco
 void leer_desde_fichero(vector<DNI>& prueba, bool& comp, string nombre_fichero);
 int DNI::contador_ = 0;
+string NameArray[10] = { "Carlos", "Daniel", "Nacho", "David", "Elena", "Karla", "Paula", "Eloisa", "Fernando", "Yaiza" };
+string SurnameArray[10] = { " Gonzalez", " Fernandez", " Lopez", " Garcia", " Suarez", " Flores", " Aguirre", " Medina", " Romero", " Molina" }; // usar dni
+
+
 
 int main(int argc, char* argv[])
 {
@@ -50,7 +53,7 @@ int main(int argc, char* argv[])
             // DNI* banco=new Matricula_t[n_nodos];
             vector<DNI> banco;
             DNI a;
-            vector_aleatorio_matriculas(banco, n_nodos);
+            vector_aleatorio_dni(banco, n_nodos);
 
             // CREAMOS UN ARBOL!
             AVL<DNI>* B;
@@ -79,7 +82,7 @@ int main(int argc, char* argv[])
 
                 do
                 {
-                    e = elemento_aleatorio_matricula();
+                    e = elemento_aleatorio_dni();
                     for (int j = 0; j < n_nodos; j++)
                         if (e == banco[j])
                             distinto = false;
@@ -236,44 +239,30 @@ void menu2(void)
     cout << "				  " << endl;
 }
 
-DNI elemento_aleatorio_matricula(void)
+DNI elemento_aleatorio_dni(void)
 {
-    string aux;
-    int num;
-    char strrnd[3];
+    //string aux;
+    int input_val;
+    char strrnd;
     DNI tmp;
-
-    num = rand() % 9000 + 1000;
-    aux = to_string(num);
-    for (int i = 0; i <= 2; i++)
-    {
-        strrnd[i] = 65 + rand() % (90 - 65);
-    }
-    aux += strrnd;
-    aux.erase(7);
-    tmp = aux;
+    input_val = 00000000 + rand() % (99999999 + 1);
+    strrnd = 65 + rand() % (90 - 65);
+    tmp.setDni(input_val,strrnd,(NameArray[rand()%10] + SurnameArray[rand()%10] + SurnameArray[rand()%10]));
     return tmp;
 }
 
-void vector_aleatorio_matriculas(vector<DNI>& banco, int input_size)
+void vector_aleatorio_dni(vector<DNI>& banco, int input_size)
 {
     string aux;
-    int num;
-    char strrnd[3];
+    int input_val;
+    char strrnd;
     DNI tmp;
 
     for (int c = 0; c < input_size; c++)
     {
-        num = rand() % 9000 + 1000;
-        aux = to_string(num);
-        for (int i = 0; i <= 2; i++)
-        {
-            strrnd[i] = 65 + rand() % (90 - 65);
-        }
-        aux += strrnd;
-        aux.erase(7);
-        tmp = aux;
-        // tree.insert(tmp);
+        input_val = 00000000 + rand() % (99999999 + 1);
+        strrnd = 65 + rand() % (90 - 65);
+        tmp.setDni(input_val,strrnd,(NameArray[rand()%10] + SurnameArray[rand()%10] + SurnameArray[rand()%10]));
         // insertar al banco
         banco.push_back(tmp);
     }

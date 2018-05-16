@@ -148,6 +148,8 @@ void DNI::operator=(const string& a)
     	{
     		letra_ = a[i];
     		i = a.size();
+    		for(size_t x = i; x < a.size();x++)
+    			nombre_ += a[x];
     	}
     }
 }
