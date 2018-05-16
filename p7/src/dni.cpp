@@ -25,7 +25,6 @@ DNI::~DNI(){}
 void DNI::setDni(int n){
 	numero_ = n;
 }
-
 void DNI::setDni(int n, char letra, string nombre){
 	numero_ = n;
 	letra_ = letra;
@@ -134,6 +133,7 @@ void DNI::operator=(const DNI& a)
 void DNI::operator=(const string& a)
 {
 	char tmp[] = "00000000";
+	string name_tmp;
 	for(size_t i = 0; i < a.size();i++)
 	{
 		if(isdigit(a[i]))
@@ -142,14 +142,18 @@ void DNI::operator=(const string& a)
 		}
 	}
     numero_ = atoi(tmp);
-    for(size_t i = 0; i < a.size();i++)
+    for(size_t i = 8; i < a.size();i++)
     {
-    	if(!isdigit(a[i]))
-    	{
+    	//if(!isdigit(a[i]))
+    	//{
     		letra_ = a[i];
+    		for(size_t x = i+1; x < a.size();x++)
+    		{
+    			name_tmp += a[x];
+    		}
     		i = a.size();
-    		for(size_t x = i; x < a.size();x++)
-    			nombre_ += a[x];
-    	}
+    	//}
     }
+    nombre_.clear();
+    nombre_ = name_tmp;
 }
