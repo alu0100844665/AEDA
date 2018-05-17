@@ -281,7 +281,6 @@ void leer_desde_fichero(vector<DNI>& prueba, bool& comp, string nombre_fichero)
         while (leer < tam)
         {
             fichero >> dummy;
-            std::cout << dummy << std::endl;
             prueba[leer] = dummy;
             leer++;
         }
