@@ -9,15 +9,13 @@ letra_('a' + rand() % (('z' - 'a') + 1)),
 nombre_("carlos")
 {}
 
-DNI::DNI(int num){
-	numero_ = num;
-}
 
-DNI::DNI(int num, char letra, string nombre){
-	numero_ = num;
-	letra_ = letra;
-	nombre_ = nombre;
-}
+
+DNI::DNI(int num, char letra, string nombre):
+numero_(num),
+letra_(letra),
+nombre_(nombre)
+{}
 
 
 DNI::~DNI(){}
@@ -51,48 +49,21 @@ string DNI::getDniNombre(){
 string DNI::getDniNombre() const{
 	return nombre_;
 }
-// bool DNI::operator == (const DNI& dni){
-// 		if( (unsigned long int)*this == (unsigned long int)dni )
-// 		return true;
-// 		else
-// 		return false;
-// }
-// bool DNI::operator == (const DNI& dni){
-// 		//if( (unsigned long int)*this == (unsigned long int)dni )
-// 		if(getDni() == dni.getDni())
-// 		return true;
-// 		else
-// 		return false;
-// }
-// bool DNI::operator < (const DNI& dni){
-// 	//if( (unsigned long int)*this < (unsigned long int)dni )
-// 	if(getDni() < dni.getDni())
-// 		return true;
-// 		else
-// 		return false;
-// }
 
-// bool DNI::operator > (const DNI& dni){
-// 	//if( (unsigned long int)*this > (unsigned long int)dni )
-// 	if(getDni() > dni.getDni())
-// 	return true;
-// 	else
-// 	return false;
-// }
 bool DNI::operator == (const DNI& dni) const{
 		//if( (unsigned long int)*this == (unsigned long int)dni )
 		DNI::contador_++;
 		if(getDni() == dni.getDni())
-		return true;
+			return true;
 		else
-		return false;
+			return false;
 }
 bool DNI::operator < (const DNI& dni) const{
 	//if( (unsigned long int)*this < (unsigned long int)dni )
 	DNI::contador_++;
 	if(getDni() < dni.getDni())
 		return true;
-		else
+	else
 		return false;
 }
 
@@ -100,9 +71,9 @@ bool DNI::operator > (const DNI& dni) const{
 	//if( (unsigned long int)*this > (unsigned long int)dni )
 	DNI::contador_++;
 	if(getDni() > dni.getDni())
-	return true;
+		return true;
 	else
-	return false;
+		return false;
 }
 
 
@@ -129,7 +100,7 @@ void DNI::operator=(const DNI& a)
     letra_ = a.getDniLetra();
     nombre_ = a.getDniNombre();
 }
-    
+
 void DNI::operator=(const string& a)
 {
 	char tmp[] = "00000000";
@@ -137,23 +108,18 @@ void DNI::operator=(const string& a)
 	for(size_t i = 0; i < a.size();i++)
 	{
 		if(isdigit(a[i]))
-		{
 			tmp[i] = a[i];
-		}
 	}
-    numero_ = atoi(tmp);
-    for(size_t i = 8; i < a.size();i++)
-    {
-    	//if(!isdigit(a[i]))
-    	//{
-    		letra_ = a[i];
-    		for(size_t x = i+1; x < a.size();x++)
-    		{
-    			name_tmp += a[x];
-    		}
-    		i = a.size();
-    	//}
-    }
-    nombre_.clear();
-    nombre_ = name_tmp;
+  numero_ = atoi(tmp);
+  for(size_t i = 8; i < a.size();i++)
+  {
+  	letra_ = a[i];
+  	for(size_t x = i+1; x < a.size();x++)
+  	{
+  		name_tmp += a[x];
+  	}
+  	i = a.size();
+  }
+  nombre_.clear();
+  nombre_ = name_tmp;
 }

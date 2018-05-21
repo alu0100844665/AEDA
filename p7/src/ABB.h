@@ -1,4 +1,4 @@
-#include "nodo.h"
+#include "vo/nodo.h"
 #include <vector>
 #pragma once
 #include <stdio.h>
@@ -6,14 +6,10 @@
 template <class T>
 class ArbolBB
 {
-
-   protected:
-      nodoAVL<T> *raiz;
-	   int numerodenodos_;
-	   vector <int> dato;
-	   
 	public:
-	
+		 nodoAVL<T> *raiz;
+		 int numerodenodos_;
+		 vector <int> dato;
 	   ArbolBB();
 	   ~ArbolBB();
 	   void Imprimir(void);
@@ -22,14 +18,14 @@ class ArbolBB
 	   vector <int> recorridoInorden(nodoAVL<T>* &nodo);
 	   nodoAVL<T>* Buscar(T clave_dada);
 	   nodoAVL<T>* BuscarRama(nodoAVL<T>* nodo, T clave_dada);
-	  
-	   //Funciones virtuales->Herencia.	 	  
+
+	   //Funciones virtuales->Herencia.
 	   virtual void Insertar(T clave_dada);
 	   virtual void InsertarRama( nodoAVL<T>* &nodo,T clave_dada);
 	   virtual void Eliminar(T clave_dada);
 	   virtual void EliminarRama(nodoAVL<T>* &nodo,T clave_dada);
 	   virtual void sustituye(nodoAVL<T>* &eliminado,nodoAVL<T>* &sust);
-	 
+
 };
 
 template <class T>
@@ -49,9 +45,9 @@ nodoAVL<T>* ArbolBB<T>::Buscar(T clave_dada)
 }
 
 template <class T>
-nodoAVL<T>* ArbolBB<T>::BuscarRama(nodoAVL<T>* nodo, T clave_dada) 
+nodoAVL<T>* ArbolBB<T>::BuscarRama(nodoAVL<T>* nodo, T clave_dada)
 {
-  
+
    if (nodo == NULL)
       return NULL ;
    if (clave_dada == nodo->get_clave())
@@ -74,7 +70,7 @@ void ArbolBB<T>::InsertarRama( nodoAVL<T>* &nodo, T clave_dada)
       nodo = new nodoAVL<T>(clave_dada);
    else if (clave_dada < nodo->get_clave())
       InsertarRama(nodo->get_izdo(), clave_dada);
-   else 
+   else
       InsertarRama(nodo->get_dcho(), clave_dada);
 }
 
@@ -93,7 +89,7 @@ void ArbolBB<T>::EliminarRama( nodoAVL<T>* &nodo, T clave_dada)
       EliminarRama(nodo->get_izdo(), clave_dada);
    else if (clave_dada > nodo->get_clave())
       EliminarRama(nodo->get_dcho(), clave_dada);
-   else { 
+   else {
       nodoAVL<T>* Eliminado = nodo;
       if (nodo->get_dcho() == NULL)
          nodo = nodo->get_izdo();
@@ -107,9 +103,9 @@ void ArbolBB<T>::EliminarRama( nodoAVL<T>* &nodo, T clave_dada)
 
 template <class T>
 void ArbolBB<T>::contarnodos()
-{ 
-   numerodenodos_ = 0; 
-   cuenta(raiz); 
+{
+   numerodenodos_ = 0;
+   cuenta(raiz);
 }
 
 template <class T>
@@ -125,7 +121,7 @@ void ArbolBB<T>::cuenta(nodoAVL<T> *nodo)
 template <class T>
 void ArbolBB<T>::Imprimir()
 {
-  
+
    if(raiz!=NULL){
       queue <nodoAVL<T>*> lista;
       lista.push(raiz);
@@ -133,7 +129,7 @@ void ArbolBB<T>::Imprimir()
       int i=1;
       int k=0;
       contarnodos();
-    
+
       while(k<numerodenodos_ && !lista.empty())
       {
          if(lista.front() != NULL)
@@ -141,23 +137,24 @@ void ArbolBB<T>::Imprimir()
 	         lista.push(lista.front() -> get_izdo());
 	         lista.push(lista.front() -> get_dcho());
          }
-      
+
          else
          {
 	         lista.push(NULL);
 	         lista.push(NULL);
          }
-      
+
          if (lista.front() != NULL)
          {
 	         for(int l=0; l<2; l++)
+					 {
 	            printf(" ");
 	            printf ("[");
 	            cout<<lista.front()->get_clave();
-	            //printf ("%d", lista.front()->get_clave());
 	            printf ("]");
+						}
          }
-      
+
          else
          {
 	         for(int l=0; l<2; l++)
@@ -165,21 +162,21 @@ void ArbolBB<T>::Imprimir()
 	         printf("[.]");
 	         k--;
          }
-      
+
          lista.pop();
-      
+
          if(i==pow(2,j))
          {
 	         j++;
 	         printf("\n");
 	         i=0;
          }
-      
+
          i++;
          k++;
-      
+
       }
-  }	  
+  }
   printf("\n");
 }
 
@@ -196,10 +193,10 @@ void ArbolBB<T>::sustituye(nodoAVL<T>* &eliminado,nodoAVL<T>* &sust)
 }
 
 template <class T>
-vector<int> ArbolBB<T>::recorridoInorden(nodoAVL<T>* &nodo) 
+vector<int> ArbolBB<T>::recorridoInorden(nodoAVL<T>* &nodo)
 {
 
-   if (nodo != NULL) { 
+   if (nodo != NULL) {
         recorridoInorden(nodo->get_dcho());
 	nodo->imprimir_nodo();
         //dato.push_back(nodo->dato);   //Procesar(nodo->dato)

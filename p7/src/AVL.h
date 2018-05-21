@@ -6,28 +6,36 @@ template <class T>
 class AVL: public ArbolBB<T>
 {
 	public:
-		
+
 		AVL();
 		~AVL();
-		
-		//ROTACIONES	
+
+		//ROTACIONES
 		void rotacion_II(nodoAVL<T>* &nodo);
 		void rotacion_DD(nodoAVL<T>* &nodo);
 		void rotacion_ID(nodoAVL<T>* &nodo);
 		void rotacion_DI(nodoAVL<T>* &nodo);
-		
+
 		//INSERTAR.
 		void Insertar(T clave_dada);
-		void Insertar_bal(nodoAVL<T>* &nodo, nodoAVL<T>* nuevo, bool& crece);	
+		void Insertar_bal(nodoAVL<T>* &nodo, nodoAVL<T>* nuevo, bool& crece);
 		void insertar_re_balancea_izda(nodoAVL<T>* &nodo, bool& crece);
 		void insertar_re_balancea_dcha(nodoAVL<T>* &nodo, bool& crece);
-		
-		//ELIMINAR 	
+		void caso_menos1_izda(nodoAVL<T>* &nodo, bool &crece);
+		void caso_cero_izda(nodoAVL<T>* &nodo);
+		void caso_1_izda(nodoAVL<T>* &nodo, bool &crece);
+		void caso_menos1_dcha(nodoAVL<T>* &nodo, bool &crece);
+		void caso_1_dcha(nodoAVL<T>* &nodo, bool &crece);
+
+		//ELIMINAR
 		void Eliminar(T clave_dada);
-		void elimina_rama(nodoAVL<T>* &nodo, T dato, bool& decrece);		
+		void elimina_rama(nodoAVL<T>* &nodo, T dato, bool& decrece);
 		void eliminar_re_balancea_izda(nodoAVL<T>* &nodo, bool &decrece);
 		void eliminar_re_balancea_dcha(nodoAVL<T>* &nodo, bool &decrece);
-		
+		void caso_menos1_re_izda(nodoAVL<T>* &nodo, bool &decrece);
+		void caso_cero_re_izda(nodoAVL<T>* &nodo, bool &decrece);
+		void caso_1_re_dcha(nodoAVL<T>* &nodo, bool &decrece);
+		void caso_cero_re_dcha(nodoAVL<T>* &nodo, bool &decrece);
 		//SUSTITUYE
 		void sustituye(nodoAVL<T>* &eliminado, nodoAVL<T>* &sust, bool &decrece);
 };
@@ -42,14 +50,14 @@ AVL<T>::AVL(): ArbolBB<T>::ArbolBB() {}
 //Destructor
 template <class T>
 AVL<T>::~AVL(){}
-		
-		
-		
+
+
+
 //ROTACIONES
 template <class T>
 void AVL<T>::rotacion_II(nodoAVL<T>* &nodo)
 {
-  
+
     nodoAVL<T>* nodo1=nodo->get_izdo();
     nodo->set_izdo(nodo1->get_dcho());
     nodo1->set_dcho(nodo);
@@ -65,8 +73,8 @@ void AVL<T>::rotacion_II(nodoAVL<T>* &nodo)
     }
     nodo=nodo1;
 }
- 
-template <class T> 
+
+template <class T>
 void AVL<T>::rotacion_DD(nodoAVL<T>* &nodo)
 {
 
@@ -83,7 +91,7 @@ void AVL<T>::rotacion_DD(nodoAVL<T>* &nodo)
         nodo->set_bal(-1);
         nodo1->set_bal(1);
     }
-  nodo=nodo1;  
+  nodo=nodo1;
 }
 
 template <class T>
@@ -105,7 +113,7 @@ void AVL<T>::rotacion_ID(nodoAVL<T>* &nodo)
         nodo->set_bal(0);
     nodo2->set_bal(0);
     nodo=nodo2;
-} 
+}
 
 template <class T>
 void AVL<T>::rotacion_DI(nodoAVL<T>* &nodo)
@@ -125,10 +133,10 @@ void AVL<T>::rotacion_DI(nodoAVL<T>* &nodo)
     else
         nodo->set_bal(0);
     nodo2->set_bal(0);
-    nodo=nodo2;  
+    nodo=nodo2;
 }
 
-	
+
 //INSERTAR.
 template <class T>
 void AVL<T>::Insertar(T clave_dada)
@@ -159,53 +167,79 @@ void AVL<T>::Insertar_bal(nodoAVL<T>* &nodo, nodoAVL<T>* nuevo, bool& crece)
           insertar_re_balancea_dcha(nodo,crece);
     }
 }
+template <class T>
+void AVL<T>::caso_menos1_izda(nodoAVL<T>* &nodo, bool &crece)
+{
+	nodo->set_bal(0);
+	crece = false;
 
+}
+template <class T>
+void AVL<T>::caso_1_izda(nodoAVL<T>* &nodo, bool &crece)
+{
+	nodoAVL<T>* nodo1 = nodo->get_izdo();
+	if(nodo1->get_bal()==1)
+		rotacion_II(nodo);
+	else
+		rotacion_ID(nodo);
+	crece=false;
+}
 template <class T>
 void AVL<T>::insertar_re_balancea_izda(nodoAVL<T>* &nodo, bool &crece)
 {
     switch(nodo->get_bal())
     {
         case -1:
-            nodo->set_bal(0);
-            crece=false;
-            break;
+						caso_menos1_izda(nodo,crece);
+        		break;
         case 0:
-            nodo->set_bal(1);
-            break;
+						nodo->set_bal(1);
+        		break;
         case 1:
-            nodoAVL<T>* nodo1=nodo->get_izdo();
-            if(nodo1->get_bal()==1)
-	            rotacion_II(nodo);
-            else
-	            rotacion_ID(nodo);
-            crece=false;
+						caso_1_izda(nodo,crece);
+						break;
+				default:
+						std::cerr << "/* error message */" << '\n';
     }
 
 }
+template <class T>
+void AVL<T>::caso_menos1_dcha(nodoAVL<T>* &nodo, bool &crece)
+{
+	nodoAVL<T>* nodo1=nodo->get_dcho();
+	if(nodo1->get_bal()==-1)
+		rotacion_DD(nodo);
+	else
+		rotacion_DI(nodo);
+	crece=false;
 
+}
+template <class T>
+void AVL<T>::caso_1_dcha(nodoAVL<T>* &nodo, bool &crece)
+{
+	nodo->set_bal(0);
+	crece=false;
+}
 template <class T>
 void AVL<T>::insertar_re_balancea_dcha(nodoAVL<T>* &nodo, bool &crece)
 {
     switch(nodo->get_bal())
     {
         case 1:
-            nodo->set_bal(0);
-            crece=false;
-            break;
+					caso_1_dcha(nodo,crece);
+					break;
         case 0:
             nodo->set_bal(-1);
-            break;
+        		break;
         case -1:
-            nodoAVL<T>* nodo1=nodo->get_dcho();
-            if(nodo1->get_bal()==-1)
-	            rotacion_DD(nodo);
-            else
-	            rotacion_DI(nodo);
-            crece=false;
+						caso_menos1_dcha(nodo,crece);
+						break;
+				default:
+						std::cerr << "/* error message */" << '\n';
     }
 }
 
-//ELIMINAR 	
+//ELIMINAR
 template <class T>
 void AVL<T>::Eliminar(T clave_dada)
 {
@@ -221,14 +255,14 @@ void AVL<T>::elimina_rama(nodoAVL<T>* &nodo, T clave_dada, bool& decrece)
     if(clave_dada<nodo->get_clave())
     {
         elimina_rama(nodo->get_izdo(),clave_dada,decrece);
-    if(decrece)
-        eliminar_re_balancea_izda(nodo,decrece);
+    		if(decrece)
+        	eliminar_re_balancea_izda(nodo,decrece);
     }
     else if(clave_dada>nodo->get_clave())
     {
         elimina_rama(nodo->get_dcho(),clave_dada,decrece);
-    if(decrece)
-        eliminar_re_balancea_dcha(nodo,decrece);
+    		if(decrece)
+        	eliminar_re_balancea_dcha(nodo,decrece);
     }
     else
     {
@@ -247,71 +281,87 @@ void AVL<T>::elimina_rama(nodoAVL<T>* &nodo, T clave_dada, bool& decrece)
         {
             sustituye(Eliminado,nodo->get_izdo(),decrece);
             if(decrece)
-            eliminar_re_balancea_izda(nodo,decrece);
+            	eliminar_re_balancea_izda(nodo,decrece);
         }
         delete Eliminado;
     }
 }
-
+template <class T>
+void AVL<T>::caso_menos1_re_izda(nodoAVL<T>* &nodo, bool &decrece)
+{
+	nodoAVL<T>* nodo1=nodo->get_dcho();
+	if(nodo1->get_bal()>0)
+		rotacion_DI(nodo);
+	else
+	{
+		if(nodo1->get_bal()==0)
+			decrece=false;
+		rotacion_DD(nodo);
+	}
+}
+template <class T>
+void AVL<T>::caso_cero_re_izda(nodoAVL<T>* &nodo, bool &decrece)
+{
+	nodo->set_bal(-1);
+	decrece=false;
+}
 template <class T>
 void AVL<T>::eliminar_re_balancea_izda(nodoAVL<T>* &nodo, bool &decrece)
 {
     switch(nodo->get_bal())
     {
         case -1:
-        {
-            nodoAVL<T>* nodo1=nodo->get_dcho();
-            if(nodo1->get_bal()>0)
-    	        rotacion_DI(nodo);
-            else
-            {
-    	        if(nodo1->get_bal()==0)
-	            decrece=false;
-	            rotacion_DD(nodo);
-            }
+						caso_menos1_re_izda(nodo,decrece);
             break;
-        }
         case 0:
-        {
-            nodo->set_bal(-1);
-            decrece=false;
+						caso_cero_re_izda(nodo,decrece);
             break;
-        }
         case 1:
-        {
             nodo->set_bal(0);
-        }
+						break;
+				default:
+					std::cerr << "/* error */" << '\n';
     }
 }
 
-
+template <class T>
+void AVL<T>::caso_1_re_dcha(nodoAVL<T>* &nodo, bool &decrece)
+{
+	nodoAVL<T>* nodo1=nodo->get_izdo();
+	if(nodo1->get_bal()>0)
+		rotacion_ID(nodo);
+	else
+	{
+		if(nodo1->get_bal()==0)
+			decrece=false;
+		rotacion_II(nodo);
+	}
+}
+template <class T>
+void AVL<T>::caso_cero_re_dcha(nodoAVL<T>* &nodo, bool &decrece)
+{
+	nodo->set_bal(1);
+	decrece=false;
+}
 template <class T>
 void AVL<T>::eliminar_re_balancea_dcha(nodoAVL<T>* &nodo, bool &decrece)
 {
     switch(nodo->get_bal())
     {
         case 1:
-        {
-            nodoAVL<T>* nodo1=nodo->get_izdo();
-            if(nodo1->get_bal()>0)
-	            rotacion_ID(nodo);
-            else
-            {
-	            if(nodo1->get_bal()==0)
-	            decrece=false;
-	            rotacion_II(nodo);
-            }
+						caso_1_re_dcha(nodo,decrece);
             break;
-        }
         case 0:
-            nodo->set_bal(1);
-            decrece=false;
+						caso_cero_re_dcha(nodo,decrece);
             break;
         case -1:
             nodo->set_bal(0);
+						break;
+				default:
+						std::cerr << "/* error */" << '\n';
     }
 }
-		
+
 //SUSTITUYE
 template <class T>
 void AVL<T>::sustituye(nodoAVL<T>* &eliminado, nodoAVL<T>* &sust, bool &decrece)
@@ -329,4 +379,4 @@ void AVL<T>::sustituye(nodoAVL<T>* &eliminado, nodoAVL<T>* &sust, bool &decrece)
         sust=sust->get_izdo();
         decrece=true;
     }
-} 
+}

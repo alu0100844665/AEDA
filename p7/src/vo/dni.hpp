@@ -1,18 +1,15 @@
 #pragma once
-//#include "../common_types.hpp"
-#include "common_types.hpp"
-using namespace std;
+#include "../common_types.hpp"
 class DNI{
 
   private:
     int numero_;
     char letra_;
     string nombre_;
-    //string apellidos_;
   public:
     // CONSTRUCTOR
     DNI();
-    DNI(int num);
+
     DNI(int num, char letra, string nombre);
 
     // DESTRUCTOR
@@ -27,11 +24,6 @@ class DNI{
     char getDniLetra() const;
     string getDniNombre();
     string getDniNombre() const;
-    // SOBRECARGA DE OPERADORES
-    //bool operator == (const DNI& dni);
-    // bool operator == (const DNI& dni);
-    // bool operator < (const DNI& dni);
-    // bool operator > (const DNI& dni);
     bool operator == (const DNI& dni) const;
     bool operator < (const DNI& dni) const;
     bool operator > (const DNI& dni) const;
@@ -42,5 +34,3 @@ class DNI{
     void operator=(const string& a);
     static int contador_;
 };
-
-

@@ -10,16 +10,11 @@ using namespace std;
 template <class T>
 class nodoAVL
 {
-  
-    private:
-  
+    public:
         int bal_;
         T clave_;
         nodoAVL<T>* izdo;
         nodoAVL<T>* dcho;
-  
-    public:
-  
         nodoAVL();
         nodoAVL(T clave);
         ~nodoAVL();
@@ -109,6 +104,6 @@ void nodoAVL<T>::set_clave(T clave)
 template <class T>
 void nodoAVL<T>::imprimir_nodo()
 {
-    cout << clave_ << " ";
-    cout.flush();
+    std::cout << clave_ << " ";
+    std::cout.flush();
 }
